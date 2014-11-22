@@ -37,7 +37,7 @@ class ExponentialDecayMovingAverage(SleepPredictionAlgorithm):
 
 	def __init__(self, interval=30):
 		SleepPredictionAlgorithm.__init__(self)
-		self.interval=interval
+		self.interval=int(interval)
 
 	def update(self, prev, value):
 		return (( self.interval - 1 ) * prev + value ) / self.interval
@@ -63,7 +63,9 @@ import sys
 
 if __name__ == "__main__":
 
-	algo = ExponentialDecayMovingAverage()
+	config = util.load_config()['stats']
+
+	algo = ExponentialDecayMovingAverage(config['day_interval'])
 
 	last = None
 	for state_change in sleep_changes( sys.stdin ):

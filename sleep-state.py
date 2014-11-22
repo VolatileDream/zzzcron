@@ -18,7 +18,10 @@ def sleep_entry(state, date=None):
 	if date is None:
 		date = datetime.datetime.now()
 
-	print( state.name + " " + util.str_from_datetime(date) );
+	config = util.load_config()
+
+	with open(config['log']['location'], "a") as logFile:
+		logFile.write( state.name + " " + util.str_from_datetime(date) + "\n" );
 
 
 import sys
