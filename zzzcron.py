@@ -70,6 +70,7 @@ def state_lookup(conf, table, time ):
 def run_commands( commands ):
 	for c in commands:
 		# FIXME this should run the command
+		# should use something like https://docs.python.org/2/library/os.html
 		print(c)
 
 
@@ -94,7 +95,7 @@ def run(conf, table, crons):
 		state = new_state
 		print("state: " + state.name )
 
-		time.sleep(5)
+		time.sleep(10)
 
 
 if __name__ == "__main__":
