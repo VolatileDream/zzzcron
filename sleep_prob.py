@@ -46,6 +46,9 @@ class ExponentialDecayMovingAverage(SleepPredictionAlgorithm):
 import math
 def sleep_changes(input_stream):
 	for line in input_stream:
+		if len(line) <= 0:
+			continue
+
 		line = line.rstrip("\n")
 		portions = line.split(" ")
 		state = util.SleepState[ portions[0] ]
@@ -82,5 +85,12 @@ def update_sleep_probability(input_stream):
 import sys
 
 if __name__ == "__main__":
-	update_sleep_probability( sys.stdin )
+	if len(sys.argv) > 1:
+		log = sys.argv[1]
+	else:
+		conf = util.load_config()
+		log = conf['log']['location']
+
+	with open( log ) as logFile:
+		update_sleep_probability( logFile )
 
