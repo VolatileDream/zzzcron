@@ -23,7 +23,7 @@ class SleepPredictionAlgorithm:
 			value = 1.0
 
 		for segment in util.time_iter(start, end):
-			time_string = str(segment[0]) + ":" + str(segment[1])
+			time_string = util.time_str_from_tuple(segment)
 			#print( "updating(" + p[0].name + " " + str(p) +"-" + str(n) + " ): " + time_string )
 			prev = self.data[time_string]
 			self.data[time_string] = self.update(prev, value)
@@ -63,11 +63,6 @@ import sys
 
 if __name__ == "__main__":
 
-	#for time in util.time_iter((23,30), (1,20)):
-	#	print(time)
-
-	#raise "nope"
-
 	algo = ExponentialDecayMovingAverage()
 
 	last = None
@@ -76,10 +71,7 @@ if __name__ == "__main__":
 		if last:
 			algo.add_data( last, state_change )
 
-		#print( state_change )
 		last = state_change
-
-#	print("---")
 
 	data = algo.get_result()
 
