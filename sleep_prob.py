@@ -62,9 +62,14 @@ def sleep_changes(input_stream):
 
 		yield (state, time)
 
-def update_sleep_probability(input_stream):
+import sys
+
+def update_sleep_probability(input_stream, output_stream=None):
 
 	config = util.load_config()['stats']
+
+	if not output_stream:
+		output_stream = open(config['location'], "w")
 
 	algo = ExponentialDecayMovingAverage(config['day_interval'])
 
@@ -80,9 +85,9 @@ def update_sleep_probability(input_stream):
 
 	for data_point in util.time_iter_all():
 		time = util.time_str_from_tuple( data_point )
-		print( time + " " + str(data[time]) )
+		output_stream.write( time + " " + str(data[time]) + "\n" )
 
-import sys
+	output_stream.close()
 
 if __name__ == "__main__":
 	if len(sys.argv) > 1:

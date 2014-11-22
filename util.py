@@ -24,7 +24,8 @@ def load_config():
 		config = configparser.ConfigParser()
 		config['zzzcron'] = { 'awake_threshold' : 80,
 					'sleep_threshold': 20 }
-		config['stats'] = { 'day_interval' : 30 }
+		config['stats'] = { 'day_interval' : 30,
+					'location' : ZzzCronConfigDir + "stats" }
 		config['log'] = { 'location' : ZzzCronConfigDir + "sleep.log" }
 		save_config(config)
 
