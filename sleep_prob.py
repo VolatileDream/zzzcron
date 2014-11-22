@@ -54,9 +54,7 @@ def sleep_changes(input_stream):
 		state = util.SleepState[ portions[0] ]
 		time = util.datetime_from_str( portions[1] )
 
-		# floor to 5 minute increments
-		minutes = math.floor((time.minute % 10) / 5) * 5
-		minutes += (time.minute - time.minute % 10) # add back the 10s place
+		minutes = util.floor_minutes( time.minute )
 
 		time = datetime.datetime(time.year, time.month, time.day, time.hour, minutes)
 

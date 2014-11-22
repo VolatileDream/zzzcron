@@ -3,7 +3,7 @@ from enum import Enum
 
 class SleepState(Enum):
 	asleep = 1
-	waking = 2 # going from asleep to awake
+	waking_up = 2 # going from asleep to awake
 	awake =  3
 	falling_asleep = 4 # going from awake to asleep
 
@@ -23,7 +23,8 @@ def load_config():
 		# create the config, and then save it
 		config = configparser.ConfigParser()
 		config['zzzcron'] = { 'awake_threshold' : 80,
-					'sleep_threshold': 20 }
+					'sleep_threshold': 20,
+					'location' : ZzzCronConfigDir + 'cron.rc' }
 		config['stats'] = { 'day_interval' : 30,
 					'location' : ZzzCronConfigDir + "stats" }
 		config['log'] = { 'location' : ZzzCronConfigDir + "sleep.log" }
@@ -45,6 +46,14 @@ def save_config(config):
 import datetime
 
 DateTimeFormat = "%Y-%m-%dT%H:%M"
+
+import math
+
+def floor_minutes(m):
+	# floor to 5 minute increments
+	minutes = math.floor((m % 10) / 5) * 5
+	minutes += (m - m % 10)
+	return minutes
 
 def time_str_from_tuple(t):
 	return str(t[0]) + ":" + str(t[1])
@@ -87,10 +96,7 @@ def time_iter(start, end):
 				hours = 0
 
 		yield y_val
-		
-		
-	
-	
+
 
 class SleepPredictionTable:
 	def __init__(self):
