@@ -59,16 +59,14 @@ def sleep_changes(input_stream):
 
 		yield (state, time)
 
-import sys
-
-if __name__ == "__main__":
+def update_sleep_probability(input_stream):
 
 	config = util.load_config()['stats']
 
 	algo = ExponentialDecayMovingAverage(config['day_interval'])
 
 	last = None
-	for state_change in sleep_changes( sys.stdin ):
+	for state_change in sleep_changes( input_stream ):
 
 		if last:
 			algo.add_data( last, state_change )
@@ -80,3 +78,9 @@ if __name__ == "__main__":
 	for data_point in util.time_iter_all():
 		time = util.time_str_from_tuple( data_point )
 		print( time + " " + str(data[time]) )
+
+import sys
+
+if __name__ == "__main__":
+	update_sleep_probability( sys.stdin )
+

@@ -30,10 +30,16 @@ if __name__ == "__main__":
 
 	path = sys.argv[0].split("/")
 
-	if path[-1] == "zzz":
-		sleep_entry( util.SleepState.asleep );
-	elif path[-1] == "awake":
-		sleep_entry( util.SleepState.awake );
+	if path[-1] == "zzz" or path[-1] == "awake":
+		if path[-1] == "zzz":
+			sleep_entry( util.SleepState.asleep )
+		else:
+			sleep_entry( util.SleepState.awake )
+
+		from sleep_prob import update_sleep_probability
+
+		with open( util.load_config()['log']['location'] ) as logFile:
+			update_sleep_probability(logFile)
 	else:
 		usage()
 
