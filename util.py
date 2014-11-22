@@ -7,6 +7,25 @@ class SleepState(Enum):
 	awake =  3
 	falling_asleep = 4 # going from awake to asleep
 
+ZzzCronConfigDir = "~/.zzzcron.d/"
+ZzzCronSleepLog = ZzzCronConfigDir + "sleep.log"
+
+import configparser
+
+def load_config():
+	config = configparser.ConfigParser()
+	config.read( ZzzCronConfigDir + "config.ini" )
+	return config
+
+def save_config(config):
+
+	if type(config) is not configparser.ConfigParser:
+		raise TypeError("save_config expects configparser.ConfigParser")
+
+	with open(ZzzCronConfigDir + "config.ini") as confFile:
+		config.write(confFile)
+	
+
 import datetime
 
 DateTimeFormat = "%Y-%m-%dT%H:%M"
