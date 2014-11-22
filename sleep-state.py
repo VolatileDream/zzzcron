@@ -3,7 +3,9 @@
 import util
 import argparse
 def usage():
-	print("Usage");
+	print("Usage: [zzz|awake]")
+	print("    creates an entry in the sleep log for a user")
+	print("    can only be invoked using symbolic links")
 
 
 import datetime
@@ -24,8 +26,6 @@ import sys
 if __name__ == "__main__":
 
 	path = sys.argv[0].split("/")
-
-	#print("Running: " + sys.argv[0] + " -- " + path[-1] );
 
 	if path[-1] == "zzz":
 		sleep_entry( util.SleepState.asleep );
