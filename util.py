@@ -26,7 +26,8 @@ def load_config():
 					'sleep_threshold': 20,
 					'location' : ZzzCronConfigDir + 'cron.rc' }
 		config['stats'] = { 'day_interval' : 30,
-					'location' : ZzzCronConfigDir + "stats" }
+					'location' : ZzzCronConfigDir + "stats",
+					'algo' : "ExponentialDecayMovingAverage" }
 		config['log'] = { 'location' : ZzzCronConfigDir + "sleep.log" }
 		save_config(config)
 
