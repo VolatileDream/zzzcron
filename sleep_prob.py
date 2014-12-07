@@ -31,7 +31,7 @@ def update_sleep_probability(input_stream, output_stream=None):
 		output_stream = open(config['location'], "w")
 
 	algo_class = algorithms.GetAlgorithm(config['algo'])
-	algo = algo_class( interval=config['day_interval'] )
+	algo = algo_class( **config )
 
 	last = None
 	for state_change in sleep_changes( input_stream ):

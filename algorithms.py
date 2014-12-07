@@ -1,12 +1,23 @@
 
+_algorithm_set = { }
+
+def GetAlgorithm(name):
+	return _algorithm_set[ name ]
+
+def SleepAlgorithm(clz):
+	_algorithm_set [ clz.__name__ ] = clz
+	return clz
+
+
 import util
+
 
 class SleepPredictionAlgorithm:
 
 	def __init__(self):
 		self.data = util.SleepPredictionTable()
 
-	def update(self, prev, value):
+	def update(self, time_string, prev, value):
 		pass
 
 	def add_data(self, p, n):
@@ -22,25 +33,33 @@ class SleepPredictionAlgorithm:
 
 		for segment in util.time_iter(start, end):
 			time_string = util.time_str_from_tuple(segment)
-			#print( "updating(" + p[0].name + " " + str(p) +"-" + str(n) + " ): " + time_string )
 			prev = self.data[time_string]
-			self.data[time_string] = self.update(prev, value)
+			self.data[time_string] = self.update(time_string, prev, value)
 
 	# returns a SleepPredictionTable object
 	def get_result(self):
 		return self.data
 
 
+@SleepAlgorithm
 class ExponentialDecayMovingAverage(SleepPredictionAlgorithm):
 
-	def __init__(self, interval=30):
+	def __init__(self, **kwargs):
 		SleepPredictionAlgorithm.__init__(self)
-		self.interval=int(interval)
+		self.interval=int(kwargs['day_interval'])
 
-	def update(self, prev, value):
+	def update(self, _time_string, prev, value):
 		return (( self.interval - 1 ) * prev + value ) / self.interval
 
-_algorithm_set = { ExponentialDecayMovingAverage.__name__ : ExponentialDecayMovingAverage }
 
-def GetAlgorithm(name):
-	return _algorithm_set[ name ]
+@SleepAlgorithm
+class CumulativeMovingAverage(SleepPredictionAlgorithm):
+
+	def __init__(self, **kwargs):
+		SleepPredictionAlgorithm.__init__(self)
+		self.counts = util.SleepPredictionTable()
+
+	def update(self, time, prev, value):
+		self.counts[time] += 1
+		return ( self.counts[time] * prev + value ) / ( self.counts[time] + 1 )
+
