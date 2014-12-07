@@ -110,8 +110,10 @@ class SleepPredictionTable:
 		return self.times[key]
 
 	def __setitem__(self, key, value):
-		if key in self.times:
-			self.times[key] = value
+		# Don't allow bad key setting
+		if key not in self.times:
+			raise KeyError( key )
+		self.times[key] = value
 		return self.times[key]
 
 	def __iter__( self ):
