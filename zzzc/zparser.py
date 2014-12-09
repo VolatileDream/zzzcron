@@ -63,7 +63,7 @@ class ExprParser(STransformer):
 	mul_expr = _bin_op
 
 	def neg(self, exp):
-		return self.apply(lambda x: -x, exp.tail[0])
+		return lapply(lambda x: -x, exp.tail[0])
 
 	number = lambda self, exp : int(exp.tail[0])
 
