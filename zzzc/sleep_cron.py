@@ -116,10 +116,10 @@ def sleep_cron(edit):
 
 	for entry in crons:
 		time_expr = entry['time']
-		print( "time parse:", time_expr )
+		#print( "time parse:", time_expr )
 		tree = grammar.parse( time_expr )
 		times_occuring = parser.transform(tree)
-		print( times_occuring )
+		#print( times_occuring )
 		for time in times_occuring:
 			hours = time // 60
 			minutes = time % 60
