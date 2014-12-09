@@ -12,12 +12,16 @@ def zzz_cron_hook(state):
 
 	match = None
 
+	#print("# running through:", state, type(state))
+
 	for entry in crons:
+		#print("# checking:", entry['time'], type(entry['time']) )
 		if state == entry['time']:
+			#print("# match")
 			match = entry
 
 	if match:
-		for command in entry['commands']:
+		for command in match['commands']:
 			print(command)
 	else:
 		# so that eval-ing our output will exit with non-zero status

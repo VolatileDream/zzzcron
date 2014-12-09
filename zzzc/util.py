@@ -9,6 +9,12 @@ class SleepState(Enum):
 
 import os
 
+def require_file(file_path):
+	if not os.path.isfile( file_path ):
+		with open( file_path, "w" ) as f:
+			pass
+
+
 ZzzCronConfigDir = os.path.expanduser("~/.zzzcron.d/")
 ZzzCronConfig = ZzzCronConfigDir + "config.ini"
 
@@ -125,6 +131,9 @@ class SleepPredictionTable:
 def load_stats(conf):
 	table = SleepPredictionTable()
 
+	if not os.path.isfile( conf['stats']['location'] ):
+		return table
+
 	with open(conf['stats']['location']) as statFile:
 		for line in statFile:
 			time, probability = line.rstrip("\n").split(" ")
@@ -137,6 +146,8 @@ def load_cron_rc(conf):
 	entries = []
 
 	last_entry = None
+
+	require_file( conf['zzzcron']['location'] )
 
 	with open( conf['zzzcron']['location'] ) as cronFile:
 		for line in cronFile:
