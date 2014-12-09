@@ -119,3 +119,44 @@ class SleepPredictionTable:
 	def __iter__( self ):
 		return self.times.__iter__()
 
+
+def load_stats(conf):
+	table = SleepPredictionTable()
+
+	with open(conf['stats']['location']) as statFile:
+		for line in statFile:
+			time, probability = line.rstrip("\n").split(" ")
+			table[time] = float(probability)
+	return table
+
+
+def load_cron_rc(conf):
+
+	entries = []
+
+	last_entry = None
+
+	with open( conf['zzzcron']['location'] ) as cronFile:
+		for line in cronFile:
+			line = line.rstrip('\n')
+			stripped_line = line.lstrip()
+
+			if len(line) <= 0:
+				continue
+
+			if line == stripped_line:
+				line = stripped_line.rstrip()
+				if last_entry:
+					entries.append( last_entry )
+				state = line
+				#state = SleepState[line]
+				last_entry = {'time' : state,
+						'commands' : [] }
+			else:
+				line = stripped_line.rstrip()
+				last_entry['commands'].append( line )
+
+	if last_entry is not None:
+		entries.append( last_entry )
+
+	return entries

@@ -1,6 +1,4 @@
-#!/usr/bin/env python3
-
-import util
+from .util import *
 import datetime
 
 import math
@@ -11,26 +9,25 @@ def sleep_changes(input_stream):
 
 		line = line.rstrip("\n")
 		portions = line.split(" ")
-		state = util.SleepState[ portions[0] ]
-		time = util.datetime_from_str( portions[1] )
+		state = SleepState[ portions[0] ]
+		time = datetime_from_str( portions[1] )
 
-		minutes = util.floor_minutes( time.minute )
+		minutes = floor_minutes( time.minute )
 
 		time = datetime.datetime(time.year, time.month, time.day, time.hour, minutes)
 
 		yield (state, time)
 
-import sys
-import algorithms
+from .algorithms import *
 
 def update_sleep_probability(input_stream, output_stream=None):
 
-	config = util.load_config()['stats']
+	config = load_config()['stats']
 
 	if not output_stream:
 		output_stream = open(config['location'], "w")
 
-	algo_class = algorithms.GetAlgorithm(config['algo'])
+	algo_class = GetAlgorithm(config['algo'])
 	algo = algo_class( **config )
 
 	last = None
@@ -43,19 +40,30 @@ def update_sleep_probability(input_stream, output_stream=None):
 
 	data = algo.get_result()
 
-	for data_point in util.time_iter_all():
-		time = util.time_str_from_tuple( data_point )
+	for data_point in time_iter_all():
+		time = time_str_from_tuple( data_point )
 		output_stream.write( time + " " + str(data[time]) + "\n" )
 
 	output_stream.close()
 
-if __name__ == "__main__":
-	if len(sys.argv) > 1:
-		log = sys.argv[1]
+
+import click
+
+@click.command("stats")
+@click.option("--input", "-i", default=None, help="input file, defaults to [config].log.location")
+@click.option("--update", is_flag=True, help="manually update the zzzcron sleep statistics")
+def update_stats(input, update):
+
+	if input:
+		log = input
 	else:
-		conf = util.load_config()
+		conf = load_config()
 		log = conf['log']['location']
 
 	with open( log ) as logFile:
-		update_sleep_probability( logFile, sys.stdout )
+		if update:
+			update_sleep_probability( logFile )
+		else:
+			import sys
+			update_sleep_probability( logFile, sys.stdout )
 

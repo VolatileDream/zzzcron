@@ -1,3 +1,4 @@
+from .util import *
 
 _algorithm_set = { }
 
@@ -9,13 +10,10 @@ def SleepAlgorithm(clz):
 	return clz
 
 
-import util
-
-
 class SleepPredictionAlgorithm:
 
 	def __init__(self):
-		self.data = util.SleepPredictionTable()
+		self.data = SleepPredictionTable()
 
 	def update(self, time_string, prev, value):
 		pass
@@ -28,11 +26,11 @@ class SleepPredictionAlgorithm:
 		end = n[1]
 
 		value = 0.0 # assume they're asleep
-		if p[0] == util.SleepState.awake:
+		if p[0] == SleepState.awake:
 			value = 1.0
 
-		for segment in util.time_iter(start, end):
-			time_string = util.time_str_from_tuple(segment)
+		for segment in time_iter(start, end):
+			time_string = time_str_from_tuple(segment)
 			prev = self.data[time_string]
 			self.data[time_string] = self.update(time_string, prev, value)
 
@@ -57,7 +55,7 @@ class CumulativeMovingAverage(SleepPredictionAlgorithm):
 
 	def __init__(self, **kwargs):
 		SleepPredictionAlgorithm.__init__(self)
-		self.counts = util.SleepPredictionTable()
+		self.counts = SleepPredictionTable()
 
 	def update(self, time, prev, value):
 		self.counts[time] += 1
