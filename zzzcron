@@ -5,5 +5,5 @@ import argparse
 
 if __name__ == "__main__":
 
-	zzzc.zzzc()
+	zzzc.zzzc_run()
 	

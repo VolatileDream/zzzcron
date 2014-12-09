@@ -123,5 +123,5 @@ def sleep_cron(edit):
 		for time in times_occuring:
 			hours = time // 60
 			minutes = time % 60
-			print(minutes, hours, "*", "*", "*", 'eval "`zzzcron cron_hook "%s"`"' % time_expr )
+			print(minutes, "\t" + str(hours), "\t*", "\t*", "\t*", '\teval "`zzzcron cron_hook "%s"`"' % time_expr )
 

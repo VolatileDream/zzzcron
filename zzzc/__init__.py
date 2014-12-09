@@ -10,11 +10,11 @@ from .sleep_cron_hook import zzz_cron_hook
 import click
 
 @click.group()
-def zzzc():
+def zzzc_run():
 	pass
 
-zzzc.add_command( update_stats )
-zzzc.add_command( sleep_state )
-zzzc.add_command( sleep_cron )
-zzzc.add_command( zzz_cron_hook )
+zzzc_run.add_command( update_stats )
+zzzc_run.add_command( sleep_state )
+zzzc_run.add_command( sleep_cron )
+zzzc_run.add_command( zzz_cron_hook )
 

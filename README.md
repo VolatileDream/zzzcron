@@ -28,17 +28,18 @@ Invoked through zzzcron with `zzzcron stats [--input file] [--update]`.
 
 ## sleep_cron.py
 
-Eats sleeps distribution data (24h in 5m increments), and spits out cron tab entries.
+Eats sleeps distribution data (24h in 5m increments), and spits out cron tab entries. This workes by
+invoking the parser code in zparser.py, and evaluating the expressions left in the cron.rc file.
 
-Invoked through zzzcron with `zzzcron cron [--update|--edit]`.
+This spits out eval nested cron entries, because it is easier to use eval over spawning a subshell to execute all of the commands.
 
-## zzzcron
+Invoked through zzzcron with `zzzcron cron [--edit]`.
 
-Wrapper around all of the other commands and setup to be hooked into cron.
+## sleep_cron_hook.py
 
-Invoked by cron with `zzzcron cron_hook <awake|asleep|waking_up|falling_asleep>`.
+Invoked by cron to signal specific transitions changes, used as `zzzcron cron_hook expr`, where expr is
+an entry in the cron.rc file.
 
-## extras
+This reads in the cron.rc file, and prints any expression that matches the `expr` value passed in by cron.
 
-To get completion use `eval $(zzzcron completion <shell>)`
 
