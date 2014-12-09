@@ -50,20 +50,27 @@ def update_sleep_probability(input_stream, output_stream=None):
 import click
 
 @click.command("stats")
-@click.option("--input", "-i", default=None, help="input file, defaults to [config].log.location")
-@click.option("--update", is_flag=True, help="manually update the zzzcron sleep statistics")
-def update_stats(input, update):
+@click.option("--input/--i", default=None, help="input file, defaults to [config].log.location")
+@click.option("--update/--u", is_flag=True, help="manually update the zzzcron sleep statistics")
+@click.option("--out/--o", is_flag=True, help="output stats to stdout. this is only required with --update")
+def update_stats(input, update, out):
+
+	conf = load_config()
 
 	if input:
 		log = input
 	else:
-		conf = load_config()
 		log = conf['log']['location']
 
 	with open( log ) as logFile:
+
 		if update:
 			update_sleep_probability( logFile )
-		else:
-			import sys
-			update_sleep_probability( logFile, sys.stdout )
+
+	# unless the user wanted to update the stats, just print them out
+	if (update and out) or not update:
+		import sys
+		with open(conf['stats']['location']) as stats_file:
+			for line in stats_file:
+				sys.stdout.write(line)
 
