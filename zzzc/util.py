@@ -65,10 +65,12 @@ def str_from_datetime(o):
 def datetime_from_str(o):
 	return datetime.datetime.strptime(o, DateTimeFormat);
 
-def time_iter_all():
+def time_iter_all(offset=None):
+	if not offset:
+		offset = (0,0)
 	for hours in range(0,24):
 		for minutes in range(0,12):
-			yield (hours, minutes * 5)
+			yield ( (hours+offset[0])%24, ((minutes * 5) + offset[1]) % 60)
 
 def time_iter(start, end):
 
