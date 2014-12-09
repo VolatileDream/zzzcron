@@ -50,9 +50,9 @@ def update_sleep_probability(input_stream, output_stream=None):
 import click
 
 @click.command("stats")
-@click.option("--input/--i", default=None, help="input file, defaults to [config].log.location")
-@click.option("--update/--u", is_flag=True, help="manually update the zzzcron sleep statistics")
-@click.option("--out/--o", is_flag=True, help="output stats to stdout. this is only required with --update")
+@click.option("--input", "--i", default=None, help="input file, defaults to [config].log.location")
+@click.option("--update", "--u", is_flag=True, help="manually update the zzzcron sleep statistics")
+@click.option("--out", "--o", is_flag=True, help="output stats to stdout. this is only required with --update")
 def update_stats(input, update, out):
 
 	conf = load_config()
