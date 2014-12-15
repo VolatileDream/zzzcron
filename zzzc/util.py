@@ -15,7 +15,7 @@ def require_file(file_path):
 			pass
 
 
-ZzzCronConfigDir = os.path.expanduser("~/.zzzcron.d/")
+ZzzCronConfigDir = os.path.expanduser("~/.config/zzzcron.d/")
 ZzzCronConfig = ZzzCronConfigDir + "config.ini"
 
 import configparser
