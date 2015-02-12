@@ -121,6 +121,8 @@ def sleep_cron(edit):
 		times_occuring = parser.transform(tree)
 		#print( times_occuring )
 		for time in times_occuring:
+			# update time to be mod a day
+			time = time % (60 * 24)
 			hours = time // 60
 			minutes = time % 60
 			print(minutes, "\t" + str(hours), "\t*", "\t*", "\t*", '\teval "`zzzcron cron_hook "%s"`"' % time_expr )
