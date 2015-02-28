@@ -52,7 +52,7 @@ Important notes:
 * Variables may have more than a single value (in the case of multi-phase sleep schedules), this causes zzzcron to evaluate the expression for all values of the variable and output them.
 * If two variables are in an expression and they both have multiple values, zzzcron will print out all possible evaluations of the expression.
  * ex: `(awake+asleep)/2` will produce 4 entries for a two phase sleep cycle.
-* zzzcron does **not** edit your cron tab, you have to copy entries into it. This makes it easier for
+* zzzcron does **not** edit your cron tab, you have to copy entries into it (it makes zzzcron simpler).
 
 Invoked through zzzcron with `zzzcron cron [--edit]`.
 
