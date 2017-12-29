@@ -63,7 +63,7 @@ def floor_minutes(m):
 	return minutes
 
 def time_str_from_tuple(t):
-	return str(t[0]) + ":" + str(t[1])
+    return "{:02d}:{:02d}".format(t[0], t[1])
 
 def str_from_datetime(o):
 	return o.strftime(DateTimeFormat);
@@ -112,7 +112,7 @@ class SleepPredictionTable:
 		self.times = {}
 		for hours in range(0,24):
 			for minutes in range(0,12):
-				self.times[ str(hours) + ":" + str(minutes * 5) ] = 0.0
+				self.times[ time_str_from_tuple((hours, minutes * 5,)) ] = 0.0
 
 	def __getitem__(self, key):
 		return self.times[key]
